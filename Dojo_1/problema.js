@@ -18,13 +18,102 @@ console.log(numeroPorExtensoBR(123)); // "cento e vinte e três"
 
 */
 
-let numero = 15;
+let numero = 199;
 
 function extenso(numero) {
-    let unidades = ["um", "dois", "tres", "quatro", "cinco", "seis", "sete", "oito", "nove"];
-    let dezenas = ["dez", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa", "cem"];
     let stringNumero = String(numero).split(".");
-    return(stringNumero + " reias" + " e centavos")
+    let reais = stringNumero[0];
+
+    let numeroExtenso = "";
+
+    let unidade = {
+        1: "um",
+        2: "dois",
+        3: "tres",
+        4: "quatro",
+        5: "cinco",
+        6: "seis",
+        7: "sete",
+        8: "oito",
+        9: "nove"
+    };
+
+    let dezena = {
+        10: "dez",
+        11: "onze",
+        12: "doze",
+        13: "treze",
+        14: "quatorze",
+        15: "quinze",
+        16: "dezesseis",
+        17: "dezessete",
+        18: "dezoito",
+        19: "dezenove",
+        2: "vinte",
+        3: "trinta",
+        4: "quarenta",
+        5: "cinquenta",
+        6: "sessenta",
+        7: "setenta",
+        8: "oitenta",
+        9: "noventa"
+    };
+
+    let centana = {
+        100: "cem",
+        1: "cento",
+        2: "duzentos",
+        3: "trezentos",
+        4: "quatrocentos",
+        5: "quinhentos",
+        6: "seiscentos",
+        7: "setessentos",
+        8: "oitocentos",
+        9: "novecentos"
+    };
+
+    //Codigo para unidades
+    if(reais.length == 1) {
+        numeroExtenso = numeroExtenso + unidade[reais];
+        return numeroExtenso;
+    };
+
+    //Codigo para dezenas
+    if(reais.length == 2 && reais[0] == "1") {
+        numeroExtenso = numeroExtenso + dezena[reais];
+    }
+    
+    if (reais.length == 2 && reais[0] != "1") {
+        numeroExtenso = numeroExtenso + dezena[reais[0]];
+        if (reais[1] != "0"){
+            numeroExtenso = numeroExtenso + " e " + unidade[reais[1]];
+        };
+    }
+
+    //Codigo para centenas
+    if (reais == "100") {
+        numeroExtenso = numeroExtenso + centana[reais];
+    }
+    else if (reais.length == 3){
+        if (reais[1] == "0" && reais[2] == "0") {
+            numeroExtenso = numeroExtenso + centana[reais[0]];
+        }
+        else if (reais[1] != "0" && reais[1] != "1" && reais[2] == "0") {
+            numeroExtenso = numeroExtenso + centana[reais[0]] + " e " + dezena[reais[1]];
+        }
+        else if (reais[1] == "0" && reais[2] != "0") {
+            numeroExtenso = numeroExtenso + centana[reais[0]] + " e " + unidade[reais[2]];
+        }
+        else if (reais[1] != "0" && reais[1] != "1" && reais[2] != "0") {
+            numeroExtenso = numeroExtenso + centana[reais[0]] + " e " + dezena[reais[1]] + " e " + unidade[reais[2]];
+        }
+        else {
+            let dezenaAgregado = reais[1] + reais[2];
+            numeroExtenso = numeroExtenso + centana[reais[0]] + " e " + dezena[dezenaAgregado]
+        }
+    }
+
+    return numeroExtenso;
 };
 
 console.log(extenso(numero));
